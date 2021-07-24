@@ -1,6 +1,5 @@
 # In the Wild
 
-## Bookmarks 
-
 ## Exam Tips
+* Bookmarks
 * ```'k'``` alias
