@@ -1,7 +1,11 @@
-<img width="32" alt="CKAD" style="float: left; padding: 0 5px;" src="https://user-images.githubusercontent.com/34093915/126874239-bee97f81-3fab-409f-95d9-6d09652a744f.png"> 
-
 # CKAD
 
+<br>
+
+<img width="100" alt="CKAD" src="https://user-images.githubusercontent.com/34093915/126874239-bee97f81-3fab-409f-95d9-6d09652a744f.png"> 
+
+<br>
+<br>
 <br>
 
 ``` Final Comments: ```
