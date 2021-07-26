@@ -32,7 +32,8 @@
 ### K8's Objects
 
 * A ***Pod*** is the smallest object that you can create in K8's and typically is a wrapper for a single containerised application. 
-    * multi-container pods are a rare use-case (side car) - example: a secondary container may be useful for processing user input or uploading a folder.
+    * multi-container pods are a rare use-case (side car)
+        * example: a secondary container may be useful for processing user input or uploading a folder.
 
 
 
@@ -47,6 +48,3 @@
 
 
 
-
-
-TINTK notes from Dan's book?
