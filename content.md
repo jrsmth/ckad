@@ -34,6 +34,8 @@
 * A ***Pod*** is the smallest object that you can create in K8's and typically is a wrapper for a single containerised application. 
     * multi-container pods are a rare use-case (side car)
         * example: a secondary container may be useful for processing user input or uploading a folder.
+    * notes:
+        * ```po``` is short-hand for pods in ```kubectl```
 
 
 
@@ -45,6 +47,8 @@
     * ```kubectl run nginx --image nginx```
 * List pods in namespace
     * ```kubectl get pods -n namespace```
+* Detailed info about a pod
+    * ```kubectl describe pod <pod-name>```
 
 
 
