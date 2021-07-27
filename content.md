@@ -29,13 +29,19 @@
 
 <br>
 
-### K8's Objects
+### K8's Resources
 
 * A ***Pod*** is the smallest object that you can create in K8's and typically is a wrapper for a single containerised application. 
     * multi-container pods are a rare use-case (side car)
         * example: a secondary container may be useful for processing user input or uploading a folder.
-    * notes:
-        * ```po``` is short-hand for pods in ```kubectl```
+    * ```po``` is short-hand for ```pods``` in ```kubectl```
+* A ***ReplicaSet*** gives our application high-availability by running multiple instances of our pod.
+    * Even with a single pod, a ReplicaSet is used because it informs the K8's controller of how many pods are in our desired state - therefore, if our pod/s died, a new one will be spun up.
+    * ReplicaSets also gives us load balancing and scaling across pods.
+    * ReplicaSets have a selector field for the pods that it is responsible for - therefore, they are able to manage pods that they did not create.
+    * ***ReplicaControllers*** was the original replication object; since replaced by ReplicaSets.
+    * ```rs``` is short-hand for ```replicasets``` in ```kubectl```
+
 
 <br>
 
@@ -59,14 +65,17 @@
     * ```kubectl get pods -n namespace```
 * Detailed info about a pod
     * ```kubectl describe pod <pod-name>```
-* Delete a K8's object - example: service
+* Delete a K8's resource - example: service
     * ```kubectl delete svc/<svc-name> -n namespace```
-* Create a K8's object from YAML
-    * ``` kubectl apply -f <definition.yaml> -n namespace ```
+* Create/update a K8's resource from YAML (declarative)
+    * ``` kubectl create -f <definition.yaml> -n namespace ```
+        * ```apply```: create + replace a resource
+        * ```create```: create a new resource
+        * ```replace```: update a live resource
 * Edit a pod (imperative)
     * ``` kubectl edit pod <pod-name> ```
-
-
+* Scale pods (imperative)
+    * ``` kubectl scale --replicas=<instances> rs <pod-name> ```
 
 <br>
 
@@ -86,4 +95,29 @@
               image: nginx
     ```
 
+<br>
 
+* ReplicaSet: <br>
+    ```yaml
+    apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+        name: myapp
+        labels:
+            app: myapp
+    spec:
+        template:
+            metadata:
+                name: myapp
+                labels:
+                    app: myapp
+            spec:
+                containers:
+                    - name: myapp
+                    image: nginx
+    replicas: 3
+    selector: 
+        matchLabels:
+            app: myapp
+    ```
+    * the pod's ```metadata``` and ```spec``` goes under ```template```
