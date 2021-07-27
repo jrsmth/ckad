@@ -1,6 +1,8 @@
 # Sources
 
-* ```How to Pass CKAD``` 
+<br>
+
+* How to Pass CKAD:
     * https://www.youtube.com/watch?v=FZ3VQC-aRmI
-* ```Kubernetes Certified Application Developer (CKAD) with Tests``` 
+* Kubernetes Certified Application Developer (CKAD) with Tests:
     * https://www.udemy.com/course/certified-kubernetes-application-developer/

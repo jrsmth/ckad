@@ -37,7 +37,15 @@
     * notes:
         * ```po``` is short-hand for pods in ```kubectl```
 
+<br>
 
+### Imperative vs Declarative
+
+* ***Imperative*** programming is where you directly act to create a desired state
+* ***Declarative*** programming is where you indirectly act to create a desired state, by describing it.
+* With K8's, we should always be declarative; so we can make use of the in-built desired state functionality and have an accurate description of what the desired state is in our definition yaml files.
+    * Imperative commands, like ```create/edit pod```, should only be used in the exam, when they're explicitly required.
+        * The default action should be to generate/edit the yaml and use ``` kubectl apply -f ```
 
 <br>
 
@@ -45,10 +53,37 @@
 
 * Create a pod (imperative)
     * ```kubectl run nginx --image nginx```
+* Generate the YAML for a pod without creating it
+    * ``` kubectl run redis --image=redis123 --dry-run=client -o yaml > pod.yaml ```
 * List pods in namespace
     * ```kubectl get pods -n namespace```
 * Detailed info about a pod
     * ```kubectl describe pod <pod-name>```
+* Delete a K8's object - example: service
+    * ```kubectl delete svc/<svc-name> -n namespace```
+* Create a K8's object from YAML
+    * ``` kubectl apply -f <definition.yaml> -n namespace ```
+* Edit a pod (imperative)
+    * ``` kubectl edit pod <pod-name> ```
 
+
+
+<br>
+
+### ```yaml``` Examples
+
+* Pod: <br>
+    ```yaml
+    apiVersion: v1 
+    kind: Pod
+    metadata:
+        name: nginx
+        labels:
+            app: nginx
+    spec:
+        containers:
+            - name: nginx
+              image: nginx
+    ```
 
 
