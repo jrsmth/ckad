@@ -39,9 +39,11 @@
     * Even with a single pod, a ReplicaSet is used because it informs the K8's controller of how many pods are in our desired state - therefore, if our pod/s died, a new one will be spun up.
     * ReplicaSets also gives us load balancing and scaling across pods.
     * ReplicaSets have a selector field for the pods that it is responsible for - therefore, they are able to manage pods that they did not create.
+        * the pod label in the replicasets' ```template``` must match the selector's ```matchLabel```
     * ***ReplicaControllers*** was the original replication object; since replaced by ReplicaSets.
     * ```rs``` is short-hand for ```replicasets``` in ```kubectl```
-
+* A ***Deployment*** allows us to upgrade the underlying instances of our app seemlessly with rolling updates and rollbacks.
+    * It is a wrapper around ReplicaSets, which are in turn, wrappers around pods.
 
 <br>
 
@@ -61,8 +63,10 @@
     * ```kubectl run nginx --image nginx```
 * Generate the YAML for a pod without creating it
     * ``` kubectl run redis --image=redis123 --dry-run=client -o yaml > pod.yaml ```
-* List pods in namespace
+* List pods in a namespace
     * ```kubectl get pods -n namespace```
+* List all resources in a namespace
+    * ```kubectl get all -n namespace```
 * Detailed info about a pod
     * ```kubectl describe pod <pod-name>```
 * Delete a K8's resource - example: service
@@ -121,3 +125,31 @@
             app: myapp
     ```
     * the pod's ```metadata``` and ```spec``` goes under ```template```
+
+<br>
+
+
+* Deployment: <br>
+    ```yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+        name: myapp
+        labels:
+            app: myapp
+    spec:
+        template:
+            metadata:
+                name: myapp
+                labels:
+                    app: myapp
+            spec:
+                containers:
+                    - name: myapp
+                    image: nginx
+    replicas: 3
+    selector: 
+        matchLabels:
+            app: myapp
+    ```
+    * except for the ```Kind```, this is the same as the ReplicaSet defintion

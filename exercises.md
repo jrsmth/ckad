@@ -22,3 +22,8 @@
 * ``` kubectl run redis --image=redis123 -o yaml > pod.yaml ``` 
     * use ``` --dry-run=client ``` to avoid creating the resource
 
+<br>
+
+### Update a replicaset's image - imperative, no access to original YAML
+* ``` kubectl edit rs <rs-name> ```
+* replace the image field under ```spec/template/spec/containers/image```
