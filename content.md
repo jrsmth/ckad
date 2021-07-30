@@ -29,7 +29,7 @@
 
 <br>
 
-### K8's Resources
+### K8's Objects
 
 * A ***Pod*** is the smallest object that you can create in K8's and typically is a wrapper for a single containerised application. 
     * multi-container pods are a rare use-case (side car)
@@ -44,6 +44,30 @@
     * ```rs``` is short-hand for ```replicasets``` in ```kubectl```
 * A ***Deployment*** allows us to upgrade the underlying instances of our app seemlessly with rolling updates and rollbacks.
     * It is a wrapper around ReplicaSets, which are in turn, wrappers around pods.
+* A ***Namespace*** is a K8's object which partitions a cluster into multiple virtual clusters.
+    * The 'default' namespace is automatically set up when the cluster is created; alongside 'kube-system' (which houses the resources required for the cluster's internal working: networking, etc) and 'kube-public' (which houses resources that should be made available for all users is created).
+    * Using namespaces is useful in enterprise environments where you have different versions of an application running or different applications in general (where a whole namespace is used segregate the various services that are running).
+    * Namespaces can have their own RBAC (role-based access controll) and resource limits.
+    * Objects that are in the same Namespace can refer to each other by their names (think Mark Smith vs Mark Williams analogy).
+        * Objects in one namespaces can talk to object in another by refering the name of the object and the namespace that it is in.
+            * example:
+                * connect to ```svc/db-service``` in the ```default``` ns from the ```default``` ns:
+                    * using '```db-service```'
+                * connect to ```svc/db-service``` in the ```dev``` ns from the ```default``` ns:
+                    * using '```db-service.dev.svc.cluster.local```'
+    * You can specify the namespace that you want a resource to be deployed to in the definition YAML file.
+        ```yaml
+        apiVersion: v1
+        kind: Pod
+        metadata:
+            name: myapp
+            namespace: dev
+            labels:
+                app: myapp
+        ```
+    * ```ns``` is short-hand for ```namespaces``` in ```kubectl```
+* A ***ResourceQuota*** belongs to a namespace and defines the quotas that are allowed to be consumed by K8's resources in that namespace.
+    * K8's Resources <-> Object; not to be confused with compute resources like CPU's, memory, etc,
 
 <br>
 
@@ -61,10 +85,14 @@
 
 * Create a pod (imperative)
     * ```kubectl run nginx --image nginx```
+* Create a namespace (imperative)
+    * ```kubectl create ns dev```
 * Generate the YAML for a pod without creating it
     * ``` kubectl run redis --image=redis123 --dry-run=client -o yaml > pod.yaml ```
 * List pods in a namespace
     * ```kubectl get pods -n namespace```
+* List pods across all namespaces
+    * ``` kuebctl get pods --all-namespaces ```
 * List all resources in a namespace
     * ```kubectl get all -n namespace```
 * Detailed info about a pod
@@ -80,6 +108,8 @@
     * ``` kubectl edit pod <pod-name> ```
 * Scale pods (imperative)
     * ``` kubectl scale --replicas=<instances> rs <pod-name> ```
+* Switch namespaces
+    * ``` kubectl config set-context $(kubectl config current-context) -n dev ```
 
 <br>
 
@@ -153,3 +183,35 @@
             app: myapp
     ```
     * except for the ```Kind```, this is the same as the ReplicaSet defintion
+
+<br>
+
+
+* Namespace: <br>
+    ```yaml
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+        name: dev
+    ```
+
+
+<br>
+
+
+* Resource Quota: <br>
+    ```yaml
+    apiVersion: v1
+    kind: ResourceQuota
+    metadata:
+        name: compute-quota
+        namespace: dev
+    spec:
+        hard:
+            pods: "10"
+            requests.cpu: "4"
+            requests.memory: "5Gi"
+            limits.cpu: "10"
+            limits.memory: "10Gi"
+    
+    ```
