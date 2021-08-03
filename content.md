@@ -110,6 +110,8 @@
     * ``` kubectl scale --replicas=<instances> rs <pod-name> ```
 * Switch namespaces
     * ``` kubectl config set-context $(kubectl config current-context) -n dev ```
+* Create a service for a pod (imperative)
+    * ```kubectl expose redis --name redis-service --port 6379 --target-port 6379```
 
 <br>
 
