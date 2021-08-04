@@ -86,5 +86,5 @@
 
 ### Using as few imperative commands as possible, create a pod called ```httpd``` with the ```httpd:apline``` image in the ```default``` ns. Next, create a ```httpd``` svc, of type ```ClusterIP```, with ```target-port=80```
 * ``` kubectl run httpd --image=httpd:alpine --port 80 --expose --dry-run=client -o yaml```
-    * This lets you check first, confirm it's all good, then re-run
+    * This lets you check first, confirm it's all good and then re-run
         * ``` kubectl run httpd --image=httpd:alpine --port 80 --expose ```

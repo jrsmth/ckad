@@ -217,3 +217,59 @@
             limits.memory: "10Gi"
     
     ```
+
+ <br>
+
+### Docker Concepts
+* Docker is a container runtime engine that is the default standard in K8s.
+* Containers are not designed to run an OS, only to execute a particulary task or process.
+    * A container only lives whilst the process that is running inside it is running. When it has finished the container exits.
+        * ```docker run ubuntu``` runs and immeadiately exits becuase there is no process running.
+        * ```docker run ubuntu sleep 5``` runs as a container for 5 seconds before exiting
+            * ```docker run <image> <command>```
+            * Alternatively, you can specify the command to be run in the Dockerfile:
+                ```Dockerfile
+                FROM ubuntu
+
+                ENTRYPOINT ["sleep"]
+
+                CMD ["5"]
+                ```
+                * this is equivalent to ```docker run ubuntu sleep 5``` but gives the option to provide a custom sleep length if we wish, i.e ```docker run ubuntu 10```.
+                    * ```docker run --entrypoint sleep2.0 ubuntu 10``` lets us override the entrypoint and is equivalent to ```docker run ubuntu sleep2.0 10```
+* Commands and arguments in a K8s pod
+    * In the pod-definition yaml file below, the ```args``` field provides an argument to the docker container running inside the pod. This is equivalent to ```docker run ubuntu-sleeper 10```, where the ubuntu-sleeper Dockerfile has an entrypoint for the 'sleep' command.
+    * The ```command``` field in the yaml below provides an alternate ```ENTRYPOINT``` to the docker container and is equivalent to ```docker run --entrypoint sleep2.0 ubuntu 10```.
+    ```yaml
+    apiVersion: v1 
+    kind: Pod
+    metadata:
+        name: ubuntu-sleeper
+        labels:
+            app: ubuntu-sleeper
+    spec:
+        containers:
+            - name: ubuntu-sleeper
+              image: ubuntu-sleeper
+              command: ["sleep2.0"]
+              args: ["10"]
+    ```
+    * The long and short of it is: 
+        ```docker 
+            ...
+
+            ENTRYPOINT ["sleep"]
+            
+            CMD ["5"]
+        ```
+        * the Dockerfile lines above are equivalent to the pod-definition yaml lines below.
+        ```yaml
+        ...
+            containers:
+            ...
+            command: ["sleep2.0"]
+            args: ["10"]
+        ```
+
+<br>
+
