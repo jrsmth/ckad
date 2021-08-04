@@ -255,7 +255,7 @@
               args: ["10"]
     ```
     * The long and short of it is: 
-        ```docker 
+        ```Dockerfile 
             ...
 
             ENTRYPOINT ["sleep"]
