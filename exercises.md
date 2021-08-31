@@ -88,3 +88,11 @@
 * ``` kubectl run httpd --image=httpd:alpine --port 80 --expose --dry-run=client -o yaml```
     * This lets you check first, confirm it's all good and then re-run
         * ``` kubectl run httpd --image=httpd:alpine --port 80 --expose ```
+
+<br>
+
+### What is the cmd used run the contain in *the* Dockerfile?
+* ``` cat Dockerfile ```
+    * The answer is the combination of ```ENTRYPOINT``` and ```CMD```
+
+ 

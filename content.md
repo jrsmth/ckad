@@ -67,7 +67,11 @@
         ```
     * ```ns``` is short-hand for ```namespaces``` in ```kubectl```
 * A ***ResourceQuota*** belongs to a namespace and defines the quotas that are allowed to be consumed by K8's resources in that namespace.
-    * K8's Resources <-> Object; not to be confused with compute resources like CPU's, memory, etc,
+    * K8's Resources <-> Object; not to be confused with compute resources like CPU's, memory, etc.
+* A ***ConfigMap*** is used to centrally manage configuration data for other K8s objects. 
+    * Using a ConfigMap occurs in two stages:
+        1. Create the ConfigMap (declaratively or imperatively [can be literal or from file])
+        2. Inject it into the pod (see pod yaml below)
 
 <br>
 
@@ -112,6 +116,10 @@
     * ``` kubectl config set-context $(kubectl config current-context) -n dev ```
 * Create a service for a pod (imperative)
     * ```kubectl expose redis --name redis-service --port 6379 --target-port 6379```
+* Set an environment variable (imperative)
+    * ```kubectl run -e APP_COLOUR=pink my-app```
+* Create a ConfigMap (imperative)
+    * ```kubectl create configmap <configmap-name> --from-literal=<key>=<value> \ --from-literal=<key>=<value> ...```
 
 <br>
 
@@ -129,6 +137,13 @@
         containers:
             - name: nginx
               image: nginx
+              command: ["cmd", "val"] #optional
+              env: #optional
+                - name: APP_COLOUR
+                  value: pink
+              envFrom: #optional
+                - configMapRef:
+                    name: <configmap-name>
     ```
 
 <br>
@@ -218,7 +233,23 @@
     
     ```
 
+
+<br>
+
+
+* ConfigMap: <br>
+    ```yaml
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+        name: app-config
+    data:
+      APP_COLOUR: blue
+      APP_MODE: prod
+    ```
+
  <br>
+
 
 ### Docker Concepts
 * Docker is a container runtime engine that is the default standard in K8s.
