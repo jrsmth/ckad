@@ -10,3 +10,7 @@
     * https://blog.heptio.com/kubectl-resource-short-names-heptioprotip-c8eff9fb7202
 * ```kubectl``` create vs apply
     * https://stackoverflow.com/questions/47369351/kubectl-apply-vs-kubectl-create
+* ```kubectl``` cheat sheet
+    * https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+* K8s docs
+    * https://kubernetes.io/docs/home/
