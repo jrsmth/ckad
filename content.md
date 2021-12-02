@@ -185,6 +185,24 @@
     * The kubelet on each node gets logs from each pod and exposes them for the metric server.
         * use ``` kubectl top node/pod ```
 
+<br>
+
+### Pod Design
+* ***Labels*** are given to K8s objects in order to group and select them in various ways.
+    * this could be by ``` Kind ``` or application function (frontend, backend, db, ...), etc
+    * Labels are added to a pod by specifying the key-value pair in the defintion YAML
+* ***Selectors*** are used to query K8s objects based on their labels.
+    * ``` kubectl get po --selector key=value ```
+    * Labels and Selectors are used internally by K8s to group certain objects together - like pods and replicasets.
+* ***Annotations*** 
+    * Similar to labels but they are used to record other pieces information that are not used to identify the pod; instead these may be used for some other integration purpose.
+        * examples:
+            * build information
+            * version
+            * contact details
+        * Annotations are added in the pod spec
+
+
 
 
 <br>
@@ -256,6 +274,10 @@
 * View cluster performance
     * ``` kubectl top node ```
     * ``` kubectl top pod ```
+* Filter pods by their labels
+    * ``` kubectl get po --selector key=value ```
+* Display the labels in a namespace
+    * ``` kubectl get po -n $NAMESPACE --show-labels ```
 
 <br>
 
@@ -269,6 +291,8 @@
         name: nginx
         labels:
             app: nginx
+        annotations: #optional
+            buildVerson: 1.3.4
     spec:
         securityContext: #optional, pod-lvl security context
           runAsUser: 1000 #root vs non-root
